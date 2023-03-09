@@ -1,0 +1,15 @@
+install.packages("magick")
+install.packages("image.libfacedetection",repos="https://bnosac.github.io/drat")
+library(magick)
+library(image.libfacedetection)
+my_image=image_read("http://bnosac.be/images/bnosac/blog/wikipedia-25930827182-kerry-michel.jpg")
+faces=image_detect_faces(my_image)
+faces
+plot(faces,my_image,border='blue',lwd=7,col='red')
+face_1=Map(x=faces$detections$x,
+           y=faces$detections$y,
+           width=faces$detections$width,
+          height=faces$detections$height,
+          f=function(x,y,width,height){image_crop(my_image,geometry_area(x=264,y=131,width=66,height=66))})
+face_1=do.call(c,face_1)
+face_1
